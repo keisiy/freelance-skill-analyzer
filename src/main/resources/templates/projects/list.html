@@ -62,7 +62,11 @@ h1 {
     <tbody>
         <tr th:each="project : ${projects}">
             <td th:text="${project.id}"></td>
-            <td th:text="${project.title}"></td>
+            <td>
+                <a th:href="@{/projects/{id}(id=${project.id})}"
+                    th:text="${project.title}">
+                </a>
+            </td>
             <td th:text="${project.language}"></td>
             <td th:text="${project.framework}"></td>
             <td th:text="${project.unitPrice}"></td>

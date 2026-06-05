@@ -29,4 +29,12 @@ public class FreelanceProjectService {
     public FreelanceProject save(FreelanceProject freelanceProject) {
         return freelanceProjectRepository.save(freelanceProject);
     }
+
+    /**
+     * IDを指定して案件を1件取得する
+     */
+    public FreelanceProject findById(Long id) {
+        return freelanceProjectRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("案件が見つかりません。ID: " + id));
+    }
 }

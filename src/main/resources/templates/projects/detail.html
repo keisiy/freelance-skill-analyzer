@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>案件詳細</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+.detail-table {
+    border-collapse: collapse;
+    width: 700px;
+}
+
+.detail-table th,
+.detail-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.detail-table th {
+    width: 180px;
+    background-color: #f2f2f2;
+    text-align: left;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+}
+</style>
+
+</head>
+<body>
+
+<h1>案件詳細</h1>
+
+<table class="detail-table">
+    <tr>
+        <th>ID</th>
+        <td th:text="${project.id}"></td>
+    </tr>
+    <tr>
+        <th>案件名</th>
+        <td th:text="${project.title}"></td>
+    </tr>
+    <tr>
+        <th>言語</th>
+        <td th:text="${project.language}"></td>
+    </tr>
+    <tr>
+        <th>フレームワーク</th>
+        <td th:text="${project.framework}"></td>
+    </tr>
+    <tr>
+        <th>業界</th>
+        <td th:text="${project.industry}"></td>
+    </tr>
+    <tr>
+        <th>役割</th>
+        <td th:text="${project.role}"></td>
+    </tr>
+    <tr>
+        <th>案件概要</th>
+        <td th:text="${project.description}"></td>
+    </tr>
+    <tr>
+        <th>月単価</th>
+        <td th:text="${project.unitPrice}"></td>
+    </tr>
+</table>
+
+<a th:href="@{/projects}" class="back-link">一覧へ戻る</a>
+
+</body>
+</html>

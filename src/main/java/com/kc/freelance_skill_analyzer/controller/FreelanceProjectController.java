@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.kc.freelance_skill_analyzer.entity.FreelanceProject;
@@ -43,5 +44,15 @@ public class FreelanceProjectController {
     public String create(@ModelAttribute FreelanceProject freelanceProject) {
         freelanceProjectService.save(freelanceProject);
         return "redirect:/projects";
+    }
+
+    /**
+     * 案件詳細画面を表示する
+     */
+    @GetMapping("/projects/{id}")
+    public String detail(@PathVariable Long id, Model model) {
+        FreelanceProject project = freelanceProjectService.findById(id);
+        model.addAttribute("project", project);
+        return "projects/detail";
     }
 }
