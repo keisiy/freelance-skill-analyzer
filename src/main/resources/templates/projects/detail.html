@@ -73,6 +73,23 @@ body {
     </tr>
 </table>
 
+<a th:href="@{/projects/{id}/edit(id=${project.id})}">
+    編集
+</a>
+
+<form th:action="@{/projects/{id}/delete(id=${project.id})}"
+      method="post"
+      style="display:inline;">
+
+    <button type="submit"
+            onclick="return confirm('本当に削除しますか？');">
+        削除
+    </button>
+
+</form>
+
+<br>
+
 <a th:href="@{/projects}" class="back-link">一覧へ戻る</a>
 
 </body>

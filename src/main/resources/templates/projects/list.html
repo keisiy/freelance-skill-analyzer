@@ -36,15 +36,58 @@ h1 {
     border-radius: 4px;
     margin-bottom: 20px;
 }
+
+.sort-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #2196F3;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    margin-left: 10px;
+}
 </style>
 </head>
 <body>
 
 <h1>案件一覧</h1>
 
+<form th:action="@{/projects/search}" method="get">
+
+    <input
+        type="text"
+        name="language"
+        placeholder="言語を入力"
+        th:value="${language}"
+    >
+
+    <input
+        type="text"
+        name="framework"
+        placeholder="フレームワークを入力"
+        th:value="${framework}"
+    >
+
+    <button type="submit">
+        検索
+    </button>
+
+    <a th:href="@{/projects}">検索クリア</a>
+
+</form>
+
+<br>
+
 <p>
     <a th:href="@{/projects/new}" class="register-button">
         新規登録
+    </a>
+    <a th:href="@{/projects/sort/unit-price-desc}" class="sort-button">
+        月単価高い順
+    </a>
+    <a th:href="@{/projects}" class="sort-button">
+        通常一覧
     </a>
 </p>
 
