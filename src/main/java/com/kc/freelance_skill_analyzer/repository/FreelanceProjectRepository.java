@@ -17,4 +17,6 @@ public interface FreelanceProjectRepository
                 String framework
         );
 
+        List<FreelanceProject> findByUnitPriceGreaterThanEqual(Integer unitPrice);
+
 }

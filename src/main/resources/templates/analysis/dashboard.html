@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>案件分析ダッシュボード</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+.card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    width: 300px;
+    margin-bottom: 15px;
+}
+</style>
+
+</head>
+<body>
+
+<h1>案件分析ダッシュボード</h1>
+
+<div class="card">
+    <h3>総案件数</h3>
+    <p th:text="${analysis.totalCount}"></p>
+</div>
+
+<div class="card">
+    <h3>平均月単価</h3>
+    <p th:text="${analysis.averageUnitPrice}"></p>
+</div>
+
+<div class="card">
+    <h3>最高月単価</h3>
+    <p th:text="${analysis.maxUnitPrice}"></p>
+</div>
+
+<div class="card">
+    <h3>最低月単価</h3>
+    <p th:text="${analysis.minUnitPrice}"></p>
+</div>
+
+<h2>80万円以上案件分析</h2>
+
+<div class="card">
+    <h3>80万円以上案件数</h3>
+    <p th:text="${analysis.highPriceCount}"></p>
+</div>
+
+<div class="card">
+    <h3>80万円以上案件 平均月単価</h3>
+    <p th:text="${analysis.highPriceAverageUnitPrice}"></p>
+</div>
+
+<div class="card">
+    <h3>80万円以上案件 最高月単価</h3>
+    <p th:text="${analysis.highPriceMaxUnitPrice}"></p>
+</div>
+
+<div class="card">
+    <h3>80万円以上案件 最低月単価</h3>
+    <p th:text="${analysis.highPriceMinUnitPrice}"></p>
+</div>
+
+<a th:href="@{/projects}">
+    一覧へ戻る
+</a>
+
+</body>
+</html>

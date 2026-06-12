@@ -1,11 +1,13 @@
 package com.kc.freelance_skill_analyzer.service;
 
 import java.util.List;
+import java.util.Comparator;
 
 import org.springframework.stereotype.Service;
 
 import com.kc.freelance_skill_analyzer.entity.FreelanceProject;
 import com.kc.freelance_skill_analyzer.repository.FreelanceProjectRepository;
+import com.kc.freelance_skill_analyzer.dto.AnalysisDto;
 
 @Service
 public class FreelanceProjectService {
@@ -82,5 +84,69 @@ public class FreelanceProjectService {
                     language,
                     framework
             );
+    }
+
+    /**
+    * ダッシュボード用分析データ取得
+    */
+    public AnalysisDto getAnalysis() {
+
+        var projects = freelanceProjectRepository.findAll();
+
+        long totalCount = projects.size();
+
+        
+
+        double averageUnitPrice = projects.stream()
+            .filter(p -> p.getUnitPrice() != null)
+            .mapToInt(FreelanceProject::getUnitPrice)
+            .average()
+            .orElse(0);
+
+        int maxUnitPrice = projects.stream()
+            .filter(p -> p.getUnitPrice() != null)
+            .max(Comparator.comparing(FreelanceProject::getUnitPrice))
+            .map(FreelanceProject::getUnitPrice)
+            .orElse(0);
+
+        int minUnitPrice = projects.stream()
+            .filter(p -> p.getUnitPrice() != null)
+            .min(Comparator.comparing(FreelanceProject::getUnitPrice))
+            .map(FreelanceProject::getUnitPrice)
+            .orElse(0);
+
+        var highPriceProjects =
+            freelanceProjectRepository.findByUnitPriceGreaterThanEqual(800000);
+
+        long highPriceCount = highPriceProjects.size();
+
+        double highPriceAverageUnitPrice = highPriceProjects.stream()
+            .filter(p -> p.getUnitPrice() != null)
+            .mapToInt(FreelanceProject::getUnitPrice)
+            .average()
+            .orElse(0);
+
+        int highPriceMaxUnitPrice = highPriceProjects.stream()
+            .filter(p -> p.getUnitPrice() != null)
+            .mapToInt(FreelanceProject::getUnitPrice)
+            .max()
+            .orElse(0);
+
+        int highPriceMinUnitPrice = highPriceProjects.stream()
+            .filter(p -> p.getUnitPrice() != null)
+            .mapToInt(FreelanceProject::getUnitPrice)
+            .min()
+            .orElse(0);
+
+        return new AnalysisDto(
+            totalCount,
+            averageUnitPrice,
+            maxUnitPrice,
+            minUnitPrice,
+            highPriceCount,
+            highPriceAverageUnitPrice,
+            highPriceMaxUnitPrice,
+            highPriceMinUnitPrice
+        );
     }
 }

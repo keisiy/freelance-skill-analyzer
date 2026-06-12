@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kc.freelance_skill_analyzer.entity.FreelanceProject;
 import com.kc.freelance_skill_analyzer.service.FreelanceProjectService;
+import com.kc.freelance_skill_analyzer.dto.AnalysisDto;
 
 @Controller
 public class FreelanceProjectController {
@@ -108,5 +109,16 @@ public class FreelanceProjectController {
         model.addAttribute("framework", framework);
 
         return "projects/list";
+    }
+
+    @GetMapping("/analysis")
+    public String analysis(Model model) {
+
+        AnalysisDto analysis =
+            freelanceProjectService.getAnalysis();
+
+        model.addAttribute("analysis", analysis);
+
+        return "analysis/dashboard";
     }
 }
