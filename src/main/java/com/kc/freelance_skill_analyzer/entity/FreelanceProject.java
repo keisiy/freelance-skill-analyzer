@@ -28,4 +28,7 @@ public class FreelanceProject {
     private String description;
 
     private Integer unitPrice;
+
+    @Column(columnDefinition = "TEXT")
+    private String requiredSkills;
 }

@@ -3,6 +3,8 @@ package com.kc.freelance_skill_analyzer.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Map;
+
 @Getter
 @AllArgsConstructor
 public class AnalysisDto {
@@ -23,5 +25,9 @@ public class AnalysisDto {
     private int highPriceMaxUnitPrice;
     // 月単価が高い案件の最小月単価
     private int highPriceMinUnitPrice;
+    
+    private Map<String, Long> languageRanking;
+
+    private Map<String, Long> frameworkRanking;
 
 }

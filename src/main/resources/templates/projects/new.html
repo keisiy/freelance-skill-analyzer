@@ -72,6 +72,14 @@ button {
     </div>
 
     <div class="form-group">
+        <label>必須スキル</label>
+        <input type="text"
+           th:field="*{requiredSkills}"
+           placeholder="Java, Spring Boot, AWS"
+        >
+    </div>
+
+    <div class="form-group">
         <label>月単価</label>
         <input type="number" th:field="*{unitPrice}">
     </div>

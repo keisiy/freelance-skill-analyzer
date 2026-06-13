@@ -2,6 +2,10 @@ package com.kc.freelance_skill_analyzer.service;
 
 import java.util.List;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.Arrays;
 
 import org.springframework.stereotype.Service;
 
@@ -137,6 +141,18 @@ public class FreelanceProjectService {
             .mapToInt(FreelanceProject::getUnitPrice)
             .min()
             .orElse(0);
+        
+        Map<String, Long> languageRanking = createRanking(
+            projects.stream()
+                .map(FreelanceProject::getLanguage)
+                .toList()
+            );
+        
+        Map<String, Long> frameworkRanking = createRanking(
+            projects.stream()
+                .map(FreelanceProject::getFramework)
+                .toList()
+            );
 
         return new AnalysisDto(
             totalCount,
@@ -146,7 +162,34 @@ public class FreelanceProjectService {
             highPriceCount,
             highPriceAverageUnitPrice,
             highPriceMaxUnitPrice,
-            highPriceMinUnitPrice
+            highPriceMinUnitPrice,
+            languageRanking,
+            frameworkRanking
         );
+    }
+
+    /**
+    * カンマ区切りの文字列リストからランキングを作成する
+    */
+    private Map<String, Long> createRanking(List<String> values) {
+
+        return values.stream()
+            .filter(value -> value != null)
+            .flatMap(value -> Arrays.stream(value.split(",")))
+            .map(String::trim)
+            .filter(value -> !value.isBlank())
+            .collect(Collectors.groupingBy(
+                    value -> value,
+                    Collectors.counting()))
+            .entrySet()
+            .stream()
+            .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+            .collect(Collectors.toMap(
+                    Map.Entry::getKey,
+                    Map.Entry::getValue,
+                    (a, b) -> a,
+                    LinkedHashMap::new
+                )
+            );
     }
 }

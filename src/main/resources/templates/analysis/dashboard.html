@@ -16,6 +16,21 @@ body {
     width: 300px;
     margin-bottom: 15px;
 }
+
+table {
+    border-collapse: collapse;
+    width: 500px;
+    margin-bottom: 30px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+th {
+    background-color: #f2f2f2;
+}
 </style>
 
 </head>
@@ -64,6 +79,40 @@ body {
     <h3>80万円以上案件 最低月単価</h3>
     <p th:text="${analysis.highPriceMinUnitPrice}"></p>
 </div>
+
+<h2>言語ランキング</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>言語</th>
+            <th>件数</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="entry : ${analysis.languageRanking}">
+            <td th:text="${entry.key}"></td>
+            <td th:text="${entry.value} + '件'"></td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>フレームワークランキング</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>フレームワーク</th>
+            <th>件数</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="entry : ${analysis.frameworkRanking}">
+            <td th:text="${entry.key}"></td>
+            <td th:text="${entry.value} + '件'"></td>
+        </tr>
+    </tbody>
+</table>
 
 <a th:href="@{/projects}">
     一覧へ戻る
