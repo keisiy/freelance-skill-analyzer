@@ -169,13 +169,13 @@ public class FreelanceProjectService {
     }
 
     /**
-    * カンマ区切りの文字列リストからランキングを作成する
+    * カンマもしくは改行区切りの文字列リストからランキングを作成する
     */
     private Map<String, Long> createRanking(List<String> values) {
 
         return values.stream()
             .filter(value -> value != null)
-            .flatMap(value -> Arrays.stream(value.split(",")))
+            .flatMap(value -> Arrays.stream(value.split("[,\n]")))
             .map(String::trim)
             .filter(value -> !value.isBlank())
             .collect(Collectors.groupingBy(
