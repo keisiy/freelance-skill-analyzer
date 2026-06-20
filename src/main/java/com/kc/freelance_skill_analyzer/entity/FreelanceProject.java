@@ -31,4 +31,7 @@ public class FreelanceProject {
 
     @Column(columnDefinition = "TEXT")
     private String requiredSkills;
+
+    @Column(columnDefinition = "TEXT")
+    private String preferredSkills;
 }

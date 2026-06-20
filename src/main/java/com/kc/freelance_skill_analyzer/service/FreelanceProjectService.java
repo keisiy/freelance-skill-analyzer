@@ -153,6 +153,12 @@ public class FreelanceProjectService {
                 .map(FreelanceProject::getFramework)
                 .toList()
             );
+        
+        Map<String, Long> requiredSkillRanking = createRanking(
+            projects.stream()
+                .map(FreelanceProject::getRequiredSkills)
+                .toList()
+            );
 
         return new AnalysisDto(
             totalCount,
@@ -164,7 +170,8 @@ public class FreelanceProjectService {
             highPriceMaxUnitPrice,
             highPriceMinUnitPrice,
             languageRanking,
-            frameworkRanking
+            frameworkRanking,
+            requiredSkillRanking
         );
     }
 

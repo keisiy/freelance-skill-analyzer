@@ -30,4 +30,6 @@ public class AnalysisDto {
 
     private Map<String, Long> frameworkRanking;
 
+    private Map<String, Long> requiredSkillRanking;
+
 }

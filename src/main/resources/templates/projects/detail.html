@@ -72,8 +72,12 @@ body {
         <td class="multiline" th:text="${project.description}"></td>
     </tr>
     <tr>
-    <th>必須スキル</th>
+        <th>必須スキル</th>
         <td class="multiline" th:text="${project.requiredSkills}"></td>
+    </tr>
+    <tr>
+        <th>歓迎スキル</th>
+        <td class="multiline" th:text="${project.preferredSkills}"></td>
     </tr>
     <tr>
         <th>月単価</th>

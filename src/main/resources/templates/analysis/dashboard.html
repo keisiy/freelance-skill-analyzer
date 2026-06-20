@@ -114,6 +114,23 @@ th {
     </tbody>
 </table>
 
+<h2>必須スキルランキング</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>必須スキル</th>
+            <th>件数</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="entry : ${analysis.requiredSkillRanking}">
+            <td th:text="${entry.key}"></td>
+            <td th:text="${entry.value} + '件'"></td>
+        </tr>
+    </tbody>
+</table>
+
 <a th:href="@{/projects}">
     一覧へ戻る
 </a>

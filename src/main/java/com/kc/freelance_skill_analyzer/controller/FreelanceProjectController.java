@@ -89,12 +89,18 @@ public class FreelanceProjectController {
         return "redirect:/projects/" + id;
     }
 
+    /**
+    * 案件を削除する
+    */
     @PostMapping("/projects/{id}/delete")
     public String delete(@PathVariable Long id) {
         freelanceProjectService.deleteById(id);
         return "redirect:/projects";
     }
 
+    /**
+    * 案件を言語・フレームワークで検索する
+    */
     @GetMapping("/projects/search")
     public String search(
         @RequestParam(required = false) String language,
@@ -111,6 +117,9 @@ public class FreelanceProjectController {
         return "projects/list";
     }
 
+    /**
+    * 案件を分析する
+    */
     @GetMapping("/analysis")
     public String analysis(Model model) {
 
