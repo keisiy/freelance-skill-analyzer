@@ -131,6 +131,89 @@ th {
     </tbody>
 </table>
 
+<h2>歓迎スキルランキング</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>歓迎スキル</th>
+            <th>件数</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="entry : ${analysis.preferredSkillRanking}">
+            <td th:text="${entry.key}"></td>
+            <td th:text="${entry.value} + '件'"></td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>80万円以上案件限定ランキング</h2>
+
+<h3>言語ランキング</h3>
+<table>
+    <thead>
+        <tr>
+            <th>言語</th>
+            <th>件数</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="entry : ${analysis.highPriceLanguageRanking}">
+            <td th:text="${entry.key}"></td>
+            <td th:text="${entry.value} + '件'"></td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>フレームワークランキング</h3>
+<table>
+    <thead>
+        <tr>
+            <th>フレームワーク</th>
+            <th>件数</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="entry : ${analysis.highPriceFrameworkRanking}">
+            <td th:text="${entry.key}"></td>
+            <td th:text="${entry.value} + '件'"></td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>必須スキルランキング</h3>
+<table>
+    <thead>
+        <tr>
+            <th>必須スキル</th>
+            <th>件数</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="entry : ${analysis.highPriceRequiredSkillRanking}">
+            <td th:text="${entry.key}"></td>
+            <td th:text="${entry.value} + '件'"></td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>歓迎スキルランキング</h3>
+<table>
+    <thead>
+        <tr>
+            <th>歓迎スキル</th>
+            <th>件数</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="entry : ${analysis.highPricePreferredSkillRanking}">
+            <td th:text="${entry.key}"></td>
+            <td th:text="${entry.value} + '件'"></td>
+        </tr>
+    </tbody>
+</table>
+
 <a th:href="@{/projects}">
     一覧へ戻る
 </a>

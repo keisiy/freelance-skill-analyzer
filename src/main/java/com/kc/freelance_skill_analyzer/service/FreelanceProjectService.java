@@ -99,8 +99,6 @@ public class FreelanceProjectService {
 
         long totalCount = projects.size();
 
-        
-
         double averageUnitPrice = projects.stream()
             .filter(p -> p.getUnitPrice() != null)
             .mapToInt(FreelanceProject::getUnitPrice)
@@ -119,7 +117,7 @@ public class FreelanceProjectService {
             .map(FreelanceProject::getUnitPrice)
             .orElse(0);
 
-        var highPriceProjects =
+        List<FreelanceProject> highPriceProjects =
             freelanceProjectRepository.findByUnitPriceGreaterThanEqual(800000);
 
         long highPriceCount = highPriceProjects.size();
@@ -142,6 +140,26 @@ public class FreelanceProjectService {
             .min()
             .orElse(0);
         
+        Map<String, Long> highPriceLanguageRanking = createRanking(
+            highPriceProjects.stream()
+                .map(FreelanceProject::getLanguage)
+                .toList());
+
+        Map<String, Long> highPriceFrameworkRanking = createRanking(
+            highPriceProjects.stream()
+                .map(FreelanceProject::getFramework)
+                .toList());
+
+        Map<String, Long> highPriceRequiredSkillRanking = createRanking(
+            highPriceProjects.stream()
+                .map(FreelanceProject::getRequiredSkills)
+                .toList());
+
+        Map<String, Long> highPricePreferredSkillRanking = createRanking(
+            highPriceProjects.stream()
+                .map(FreelanceProject::getPreferredSkills)
+                .toList());
+        
         Map<String, Long> languageRanking = createRanking(
             projects.stream()
                 .map(FreelanceProject::getLanguage)
@@ -159,6 +177,12 @@ public class FreelanceProjectService {
                 .map(FreelanceProject::getRequiredSkills)
                 .toList()
             );
+        
+        Map<String, Long> preferredSkillRanking = createRanking(
+            projects.stream()
+                .map(FreelanceProject::getPreferredSkills)
+                .toList()
+            );
 
         return new AnalysisDto(
             totalCount,
@@ -171,7 +195,12 @@ public class FreelanceProjectService {
             highPriceMinUnitPrice,
             languageRanking,
             frameworkRanking,
-            requiredSkillRanking
+            requiredSkillRanking,
+            preferredSkillRanking,
+            highPriceLanguageRanking,
+            highPriceFrameworkRanking,
+            highPriceRequiredSkillRanking,
+            highPricePreferredSkillRanking
         );
     }
 
@@ -182,7 +211,7 @@ public class FreelanceProjectService {
 
         return values.stream()
             .filter(value -> value != null)
-            .flatMap(value -> Arrays.stream(value.split("[,\n]")))
+            .flatMap(value -> Arrays.stream(value.split("[,\\n]")))
             .map(String::trim)
             .filter(value -> !value.isBlank())
             .collect(Collectors.groupingBy(

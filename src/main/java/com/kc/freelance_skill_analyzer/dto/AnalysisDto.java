@@ -25,11 +25,21 @@ public class AnalysisDto {
     private int highPriceMaxUnitPrice;
     // 月単価が高い案件の最小月単価
     private int highPriceMinUnitPrice;
-    
+    // 言語のランキング
     private Map<String, Long> languageRanking;
-
+    // フレームワークのランキング
     private Map<String, Long> frameworkRanking;
-
+    // 必須スキルのランキング
     private Map<String, Long> requiredSkillRanking;
+    // 歓迎スキルのランキング
+    private Map<String, Long> preferredSkillRanking;
+    // 月単価が高い案件の言語のランキング
+    private Map<String, Long> highPriceLanguageRanking;
+    // 月単価が高い案件のフレームワークのランキング
+    private Map<String, Long> highPriceFrameworkRanking;
+    // 月単価が高い案件の必須スキルのランキング
+    private Map<String, Long> highPriceRequiredSkillRanking;
+    // 月単価が高い案件の歓迎スキルのランキング
+    private Map<String, Long> highPricePreferredSkillRanking;
 
 }
