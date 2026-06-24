@@ -19,4 +19,6 @@ public interface FreelanceProjectRepository
 
         List<FreelanceProject> findByUnitPriceGreaterThanEqual(Integer unitPrice);
 
+        boolean existsBySourceUrl(String sourceUrl);
+
 }

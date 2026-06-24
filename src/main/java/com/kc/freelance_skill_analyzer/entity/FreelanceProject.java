@@ -34,4 +34,9 @@ public class FreelanceProject {
 
     @Column(columnDefinition = "TEXT")
     private String preferredSkills;
+
+    private String sourceName;
+
+    @Column(columnDefinition = "TEXT")
+    private String sourceUrl;
 }

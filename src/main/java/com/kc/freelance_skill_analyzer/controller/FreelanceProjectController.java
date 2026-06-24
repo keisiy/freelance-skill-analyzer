@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kc.freelance_skill_analyzer.entity.FreelanceProject;
 import com.kc.freelance_skill_analyzer.service.FreelanceProjectService;
@@ -129,5 +130,37 @@ public class FreelanceProjectController {
         model.addAttribute("analysis", analysis);
 
         return "analysis/dashboard";
+    }
+
+    /**
+    * 月単価80万円以上の案件一覧を表示する
+    */
+    @GetMapping("/projects/high-price")
+    public String highPriceProjects(Model model) {
+        model.addAttribute("projects", freelanceProjectService.findHighPriceProjects());
+        return "projects/list";
+    }
+
+    /**
+    * CSVファイルから案件をインポートする画面
+    */
+    @GetMapping("/projects/import")
+    public String importForm() {
+        return "projects/import";
+    }
+
+    /**
+    * CSVファイルから案件をインポートする画面
+    */
+    @PostMapping("/projects/import")
+    public String importCsv(@RequestParam("file") MultipartFile file) {
+        freelanceProjectService.importCsv(file);
+        return "redirect:/projects";
+    }
+
+    @PostMapping("/projects/import-url")
+    public String importCsvFromUrl(@RequestParam String csvUrl) {
+        freelanceProjectService.importCsvFromUrl(csvUrl);
+        return "redirect:/projects";
     }
 }

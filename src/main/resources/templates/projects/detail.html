@@ -83,6 +83,20 @@ body {
         <th>月単価</th>
         <td th:text="${project.unitPrice}"></td>
     </tr>
+    <tr>
+        <th>情報取得元</th>
+        <td th:text="${project.sourceName}"></td>
+    </tr>
+    <tr>
+        <th>情報取得元URL</th>
+        <td>
+            <a th:if="${project.sourceUrl != null and !project.sourceUrl.isBlank()}"
+                th:href="${project.sourceUrl}"
+                th:text="${project.sourceUrl}"
+                target="_blank">
+            </a>
+        </td>
+    </tr>
 </table>
 
 <a th:href="@{/projects/{id}/edit(id=${project.id})}">

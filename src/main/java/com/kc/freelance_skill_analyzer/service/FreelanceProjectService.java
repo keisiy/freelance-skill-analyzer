@@ -5,9 +5,17 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.net.URI;
+import java.net.URL;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVRecord;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kc.freelance_skill_analyzer.entity.FreelanceProject;
 import com.kc.freelance_skill_analyzer.repository.FreelanceProjectRepository;
@@ -227,5 +235,132 @@ public class FreelanceProjectService {
                     LinkedHashMap::new
                 )
             );
+    }
+
+    /**
+    * 月単価80万円以上の案件一覧を取得する
+    */
+    public List<FreelanceProject> findHighPriceProjects() {
+        return freelanceProjectRepository.findByUnitPriceGreaterThanEqual(800000);
+    }
+
+    /**
+    * CSVファイルから案件を一括登録する
+    */
+    public void importCsv(MultipartFile file) {
+
+        try (
+            InputStreamReader reader =
+                    new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8)) {
+
+            Iterable<CSVRecord> records = CSVFormat.DEFAULT
+                .builder()
+                .setHeader()
+                .setSkipHeaderRecord(true)
+                .get()
+                .parse(reader);
+
+            for (CSVRecord record : records) {
+
+                // 重複チェック（sourceUrlがすでに登録済みの場合はスキップ）
+                String sourceUrl = record.get("sourceUrl");
+                if (isDuplicateBySourceUrl(sourceUrl)) {
+                    continue;
+                }
+
+                FreelanceProject project = new FreelanceProject();
+
+                project.setTitle(record.get("title").trim());
+                project.setLanguage(record.get("language").trim());
+                project.setFramework(record.get("framework").trim());
+                project.setIndustry(record.get("industry").trim());
+                project.setRole(record.get("role").trim());
+                project.setDescription(record.get("description").trim());
+                project.setUnitPrice(parseIntegerOrNull(record.get("unitPrice")));
+                project.setRequiredSkills(record.get("requiredSkills").trim());
+                project.setPreferredSkills(record.get("preferredSkills").trim());
+                project.setSourceName(record.get("sourceName").trim());
+                project.setSourceUrl(sourceUrl == null ? null : sourceUrl.trim());
+
+                freelanceProjectRepository.save(project);
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("CSVインポートに失敗しました", e);
+        }
+    }
+
+    /**
+    * CSV公開URLから案件を一括登録する
+    */
+    public void importCsvFromUrl(String csvUrl) {
+
+        try {
+            URI uri = URI.create(csvUrl);
+            URL url = uri.toURL();
+
+            try (
+                InputStream inputStream = url.openStream();
+                InputStreamReader reader =
+                        new InputStreamReader(inputStream, StandardCharsets.UTF_8)) {
+
+                Iterable<CSVRecord> records = CSVFormat.DEFAULT
+                    .builder()
+                    .setHeader()
+                    .setSkipHeaderRecord(true)
+                    .get()
+                    .parse(reader);
+
+                for (CSVRecord record : records) {
+
+                    // 重複チェック（sourceUrlがすでに登録済みの場合はスキップ）
+                    String sourceUrl = record.get("sourceUrl");
+                    if (isDuplicateBySourceUrl(sourceUrl)) {
+                        continue;
+                    }
+
+                    FreelanceProject project = new FreelanceProject();
+
+                    project.setTitle(record.get("title").trim());
+                    project.setLanguage(record.get("language").trim());
+                    project.setFramework(record.get("framework").trim());
+                    project.setIndustry(record.get("industry").trim());
+                    project.setRole(record.get("role").trim());
+                    project.setDescription(record.get("description").trim());
+                    project.setUnitPrice(parseIntegerOrNull(record.get("unitPrice")));
+                    project.setRequiredSkills(record.get("requiredSkills").trim());
+                    project.setPreferredSkills(record.get("preferredSkills").trim());
+                    project.setSourceName(record.get("sourceName").trim());
+                    project.setSourceUrl(sourceUrl == null ? null : sourceUrl.trim());
+
+                    freelanceProjectRepository.save(project);
+                }
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("CSV URLインポートに失敗しました", e);
+        }
+    }
+
+    /**
+     * 文字列をIntegerに変換する。空文字やnullの場合はnullを返す
+     * @param value
+     * @return Integer or null
+     */
+    private Integer parseIntegerOrNull(String value) {
+        if (value == null || value.isBlank()) {
+            return null;
+        }
+        return Integer.valueOf(value.trim());
+    }
+
+    /**
+    * 情報取得元URLがすでに登録済みか判定する
+    * return true: 登録済み, false: 未登録
+    */
+    private boolean isDuplicateBySourceUrl(String sourceUrl) {
+        return sourceUrl != null
+            && !sourceUrl.isBlank()
+            && freelanceProjectRepository.existsBySourceUrl(sourceUrl.trim());
     }
 }

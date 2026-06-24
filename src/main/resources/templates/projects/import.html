@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>CSVインポート</title>
+</head>
+<body>
+
+<h1>CSVインポート</h1>
+
+<form th:action="@{/projects/import}" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" accept=".csv">
+    <button type="submit">インポート</button>
+</form>
+
+<hr>
+
+<h2>GoogleスプレッドシートURLインポート</h2>
+
+<form th:action="@{/projects/import-url}" method="post">
+    <div>
+        <label>CSV公開URL</label>
+        <input type="text"
+               name="csvUrl"
+               style="width: 800px;"
+               placeholder="https://docs.google.com/spreadsheets/d/.../export?format=csv&gid=0">
+    </div>
+
+    <br>
+
+    <button type="submit">URLからインポート</button>
+</form>
+
+<p>
+    <a th:href="@{/projects}">一覧へ戻る</a>
+</p>
+
+</body>
+</html>
